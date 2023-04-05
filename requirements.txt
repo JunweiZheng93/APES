@@ -1,0 +1,5 @@
+einops==0.6.0
+h5py==3.8.0
+mmengine==0.7.1
+pkbar==0.5
+wandb==0.14.0
