@@ -19,7 +19,8 @@ class APESClassifier(BaseModel):
         self.backbone = MODELS.build(backbone)
         self.neck = MODELS.build(neck) if neck is not None else None
         self.head = MODELS.build(head)
-        self.loss_module = MODELS.build(dict(type='CrossEntropyLoss', reduction='mean'))
+        self.ce_loss = MODELS.build(dict(type='CrossEntropyLoss', reduction='mean'))
+        self.consistency_loss = MODELS.build(dict(type='ConsistencyLoss', reduction='mean'))
         self.acc = METRICS.build(dict(type='Accuracy'))
 
     def forward(self, inputs: Tensor, data_samples: List[ClsDataSample], mode: str):
@@ -37,9 +38,10 @@ class APESClassifier(BaseModel):
         losses = dict()
         x = self.extract_features(inputs)
         pred_cls_logits = self.head(x)
-        ce_loss = self.loss_module(pred_cls_logits, gt_cls_labels_onehot)
+        ce_loss = self.ce_loss(pred_cls_logits, gt_cls_labels_onehot)
+        consistency_loss = self.consistency_loss(self.backbone.res_link_list)
         acc = self.acc.calculate_metrics(pred_cls_logits, gt_cls_labels_onehot)
-        losses.update(dict(loss=ce_loss))
+        losses.update(dict(loss=ce_loss+consistency_loss))
         losses.update(dict(acc=acc))
         return losses
 

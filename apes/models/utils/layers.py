@@ -84,8 +84,8 @@ class GlobalDownSample(nn.Module):
         scale_factor = math.sqrt(q.shape[-2])
         attention = self.softmax(energy / scale_factor)  # (B, N, N) -> (B, N, N)
         selection = torch.sum(attention, dim=-2)  # (B, N, N) -> (B, N)
-        idx = selection.topk(self.npts_ds, dim=-1)[1]  # (B, N) -> (B, M)
-        scores = torch.gather(attention, dim=1, index=repeat(idx, 'B M -> B M N', N=attention.shape[-1]))  # (B, N, N) -> (B, M, N)
+        self.idx = selection.topk(self.npts_ds, dim=-1)[1]  # (B, N) -> (B, M)
+        scores = torch.gather(attention, dim=1, index=repeat(self.idx, 'B M -> B M N', N=attention.shape[-1]))  # (B, N, N) -> (B, M, N)
         v = scores @ rearrange(v, 'B C N -> B N C').contiguous()  # (B, M, N) @ (B, N, C) -> (B, M, C)
         out = rearrange(v, 'B M C -> B C M').contiguous()  # (B, M, C) -> (B, C, M)
         return out
@@ -114,8 +114,8 @@ class LocalDownSample(nn.Module):
         scale_factor = math.sqrt(q.shape[-1])
         attention = self.softmax(energy / scale_factor)  # (B, N, 1, K) -> (B, N, 1, K)
         selection = rearrange(torch.std(attention, dim=-1, unbiased=False), 'B N 1 -> B N').contiguous()  # (B, N, 1, K) -> (B, N, 1) -> (B, N)
-        idx = selection.topk(self.npts_ds, dim=-1)[1]  # (B, N) -> (B, M)
-        scores = torch.gather(attention, dim=1, index=repeat(idx, 'B M -> B M 1 K', K=attention.shape[-1]))  # (B, N, 1, K) -> (B, M, 1, K)
-        v = torch.gather(v, dim=1, index=repeat(idx, 'B M -> B M K C', K=v.shape[-2], C=v.shape[-1]))  # (B, N, K, C) -> (B, M, K, C)
+        self.idx = selection.topk(self.npts_ds, dim=-1)[1]  # (B, N) -> (B, M)
+        scores = torch.gather(attention, dim=1, index=repeat(self.idx, 'B M -> B M 1 K', K=attention.shape[-1]))  # (B, N, 1, K) -> (B, M, 1, K)
+        v = torch.gather(v, dim=1, index=repeat(self.idx, 'B M -> B M K C', K=v.shape[-2], C=v.shape[-1]))  # (B, N, K, C) -> (B, M, K, C)
         out = rearrange(scores@v, 'B M 1 C -> B C M').contiguous()  # (B, M, 1, K) @ (B, M, K, C) -> (B, M, 1, C) -> (B, C, M)
         return out

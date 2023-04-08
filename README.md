@@ -13,6 +13,8 @@
     <img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" /></a>
 </p>
 
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/attention-based-point-cloud-edge-sampling/3d-point-cloud-classification-on-modelnet40)](https://paperswithcode.com/sota/3d-point-cloud-classification-on-modelnet40?p=attention-based-point-cloud-edge-sampling) <br>
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/attention-based-point-cloud-edge-sampling/3d-part-segmentation-on-shapenet-part)](https://paperswithcode.com/sota/3d-part-segmentation-on-shapenet-part?p=attention-based-point-cloud-edge-sampling)
 
 ## Homepage
 
@@ -24,7 +26,9 @@ This project is selected as a Highlight at CVPR 2023! For more information about
 Install all necessary packages using:
 
 ```shell
-conda install pytorch==2.0.0 pytorch-cuda=11.7 -c pytorch -c nvidia
+conda create -n APES python=3.9 -y
+conda activate APES
+conda install pytorch==2.0.0 pytorch-cuda=11.7 -c pytorch -c nvidia -y
 pip install -r requirements.txt
 ```
 
@@ -50,8 +54,8 @@ bash utils/single_gpu_train.sh configs/apes/apes_cls_global-modelnet-200epochs.p
 
 # using multiple GPUs 
 # command: bash utils/dist_train.sh cfg_file num_gpus
-bash utils/dist_train.sh configs/apes/apes_cls_local-modelnet-200epochs.py 4  # for classification using local-based downsampling
-bash utils/dist_train.sh configs/apes/apes_cls_global-modelnet-200epochs.py 4  # for classification using global-based downsampling
+bash utils/dist_train.sh configs/apes/apes_cls_local-modelnet-200epochs.py 2  # for classification using local-based downsampling
+bash utils/dist_train.sh configs/apes/apes_cls_global-modelnet-200epochs.py 2  # for classification using global-based downsampling
 ```
 
 
@@ -67,8 +71,25 @@ bash utils/single_gpu_test.sh configs/apes/apes_cls_global-modelnet-200epochs.py
 
 # using multiple GPUs 
 # command: bash utils/dist_test.sh cfg_file ckpt_path num_gpus
-bash utils/dist_test.sh configs/apes/apes_cls_local-modelnet-200epochs.py ckpt_path 4  # for classification using local-based downsampling
-bash utils/dist_test.sh configs/apes/apes_cls_global-modelnet-200epochs.py ckpt_path 4  # for classification using global-based downsampling
+bash utils/dist_test.sh configs/apes/apes_cls_local-modelnet-200epochs.py ckpt_path 2  # for classification using local-based downsampling
+bash utils/dist_test.sh configs/apes/apes_cls_global-modelnet-200epochs.py ckpt_path 2  # for classification using global-based downsampling
+```
+
+
+## Visualization
+
+Visualize results with checkpoint using:
+
+```shell
+# using single GPU
+# command: bash utils/single_gpu_test.sh cfg_file ckpt_path -vis
+bash utils/single_gpu_test.sh configs/apes/apes_cls_local-modelnet-200epochs.py ckpt_path -vis  # for classification using local-based downsampling
+bash utils/single_gpu_test.sh configs/apes/apes_cls_global-modelnet-200epochs.py ckpt_path -vis # for classification using global-based downsampling
+
+# using multiple GPUs 
+# command: bash utils/dist_test.sh cfg_file ckpt_path num_gpus -vis
+bash utils/dist_test.sh configs/apes/apes_cls_local-modelnet-200epochs.py ckpt_path 2 -vis  # for classification using local-based downsampling
+bash utils/dist_test.sh configs/apes/apes_cls_global-modelnet-200epochs.py ckpt_path 2 -vis  # for classification using global-based downsampling
 ```
 
 

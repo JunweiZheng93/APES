@@ -3,6 +3,7 @@ train_dataloader = dict(batch_size=8,  # batch size per GPU
                         num_workers=4,  # number of workers to load data
                         persistent_workers=True,
                         pin_memory=True,
+                        drop_last=True,
                         dataset=dict(type='ModelNet',
                                      data_root='./data/modelnet',
                                      data_prefix=dict(pcd_path='pcd/train/', cls_label_path='label/train/'),
@@ -13,13 +14,13 @@ train_dataloader = dict(batch_size=8,  # batch size per GPU
                                                dict(type='ToCLSTensor'),
                                                dict(type='PackCLSInputs')]),
                         sampler=dict(type='DefaultSampler',  # DefaultSampler is designed for epoch-based training. It can handle both distributed and non-distributed training.
-                                     round_up=True,  # if True, it will add extra samples to make last batch size equal to batch_size. if False, it will do nothing (won't drop samples)
                                      shuffle=True),
                         collate_fn=dict(type='default_collate'))  # this will concatenate all the data in a batch into a single tensor
 val_dataloader = dict(batch_size=8,
                       num_workers=4,
                       persistent_workers=True,
                       pin_memory=True,
+                      drop_last=True,
                       dataset=dict(type='ModelNet',
                                    data_root='./data/modelnet',
                                    data_prefix=dict(pcd_path='pcd/test/', cls_label_path='label/test/'),
@@ -27,7 +28,7 @@ val_dataloader = dict(batch_size=8,
                                              dict(type='LoadCLSLabel'),
                                              dict(type='ToCLSTensor'),
                                              dict(type='PackCLSInputs')]),
-                      sampler=dict(type='DefaultSampler', round_up=True, shuffle=True),
+                      sampler=dict(type='DefaultSampler', shuffle=False),
                       collate_fn=dict(type='default_collate'))
 test_dataloader = val_dataloader
 

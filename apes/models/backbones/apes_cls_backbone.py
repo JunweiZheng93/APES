@@ -26,15 +26,15 @@ class APESClsBackbone(BaseModule):
         self.conv2 = nn.Conv1d(128, 1024, 1)
 
     def forward(self, x):
-        res_link_list = []
+        self.res_link_list = []
         x = self.embedding(x)  # (B, 3, 2048) -> (B, 128, 2048)
         x = self.n2p_attention(x)  # (B, 128, 2048) -> (B, 128, 2048)
-        res_link_list.append(self.conv(x).max(dim=-1)[0])  # (B, 128, 2048) -> (B, 1024, 2048) -> (B, 1024)
+        self.res_link_list.append(self.conv(x).max(dim=-1)[0])  # (B, 128, 2048) -> (B, 1024, 2048) -> (B, 1024)
         x = self.ds1(x)  # (B, 128, 2048) -> (B, 128, 1024)
         x = self.n2p_attention1(x)  # (B, 128, 1024) -> (B, 128, 1024)
-        res_link_list.append(self.conv1(x).max(dim=-1)[0])  # (B, 128, 1024) -> (B, 1024, 1024) -> (B, 1024)
+        self.res_link_list.append(self.conv1(x).max(dim=-1)[0])  # (B, 128, 1024) -> (B, 1024, 1024) -> (B, 1024)
         x = self.ds2(x)  # (B, 128, 1024) -> (B, 128, 512)
         x = self.n2p_attention2(x)  # (B, 128, 512) -> (B, 128, 512)
-        res_link_list.append(self.conv2(x).max(dim=-1)[0])  # (B, 128, 512) -> (B, 1024, 512) -> (B, 1024)
-        x, ps = pack(res_link_list, 'B *')  # (B, 3072)
+        self.res_link_list.append(self.conv2(x).max(dim=-1)[0])  # (B, 128, 512) -> (B, 1024, 512) -> (B, 1024)
+        x, ps = pack(self.res_link_list, 'B *')  # (B, 3072)
         return x

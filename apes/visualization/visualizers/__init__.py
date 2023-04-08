@@ -1,1 +1,1 @@
-from .apes_visualizer import APESVisualizer
+from .local_visualizer import APESVisualizer

@@ -1,1 +1,1 @@
-from .losses import CrossEntropyLoss
+from .losses import CrossEntropyLoss, ConsistencyLoss
