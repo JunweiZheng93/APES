@@ -26,8 +26,6 @@ class ModifiedLocalVisBackend(LocalVisBackend):
         ax.set_xlim3d(-0.6, 0.6)
         ax.set_ylim3d(-0.6, 0.6)
         ax.set_zlim3d(-0.6, 0.6)
-        # TODO: x y z R G B wrong?
-        pcd = pcd.numpy()
         ax.scatter(pcd[:, 0], pcd[:, 2], pcd[:, 1], c=pcd[:, 3:]/255., marker='o', s=2)
         plt.axis('off')
         plt.grid('off')

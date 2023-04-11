@@ -1,5 +1,4 @@
 from mmengine.visualization import Visualizer
-from mmengine.dist import master_only
 from mmengine.registry import VISUALIZERS
 
 
