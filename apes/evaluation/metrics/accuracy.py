@@ -9,12 +9,12 @@ class Accuracy(BaseMetric):
         super(Accuracy, self).__init__()
         self.mode = mode
 
-    def process(self, inputs, data_samples):
+    def process(self, inputs, data_samples: list[dict]):  # data_samples is a List of Dict, not a List of ClsDataSample
         for data_sample in data_samples:
             result = dict(gt_cls_label=data_sample['gt_cls_label'], pred_cls_label=data_sample['pred_cls_label'])
             self.results.append(result)  # self.results is actually the 'results' in the compute_metrics method
 
-    def compute_metrics(self, results: list[dict]) -> dict:
+    def compute_metrics(self, results) -> dict:
         # this method is for predict and tensor mode
         gt_cls_labels = torch.tensor([result['gt_cls_label'] for result in results])
         pred_cls_labels = torch.tensor([result['pred_cls_label'] for result in results])

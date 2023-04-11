@@ -1,7 +1,7 @@
 from mmengine.registry import TRANSFORMS
 from .basetransform import BaseTransform
 from typing import Dict
-from einops import rearrange
+from einops import rearrange, repeat
 import numpy as np
 import torch
 import torch.nn.functional as F
@@ -19,7 +19,14 @@ class ToCLSTensor(BaseTransform):
 @TRANSFORMS.register_module()
 class ToSEGTensor(BaseTransform):
     def transform(self, results: Dict) -> Dict:
-        pass
+        results['pcd'] = rearrange(torch.tensor(results['pcd']).to(torch.float32), 'N C -> C N')  # PyTorch requires (C, N) format
+        results['cls_label'] = torch.tensor(results['cls_label']).to(torch.float32)  # array to tensor
+        results['cls_label_onehot'] = F.one_hot(results['cls_label'].long(), 16).to(torch.float32)  # shape == (1, 16)
+        results['cls_label_onehot'] = repeat(results['cls_label_onehot'], 'C -> C 1')  # shape == (16, 1)
+        results['seg_label'] = torch.tensor(results['seg_label']).to(torch.float32)  # array to tensor
+        results['seg_label_onehot'] = F.one_hot(results['seg_label'].long(), 50).to(torch.float32)  # shape == (N, 50)
+        results['seg_label_onehot'] = rearrange(results['seg_label_onehot'], 'N C -> C N')  # shape == (50, N)
+        return results
 
 
 @TRANSFORMS.register_module()
@@ -27,6 +34,8 @@ class ShufflePointsOrder(BaseTransform):
     def transform(self, results: Dict) -> Dict:
         idx = np.random.choice(results['pcd'].shape[0], results['pcd'].shape[0], replace=False)
         results['pcd'] = results['pcd'][idx]
+        if 'seg_label' in results:
+            results['seg_label'] = results['seg_label'][idx]
         return results
 
 

@@ -22,7 +22,7 @@ class ModelNet(BaseDataset):
         pcd_prefix = self.data_prefix.get('pcd_path', None)  # data_prefix.__class__ == dict
         cls_label_prefix = self.data_prefix.get('cls_label_path', None)
         for pcd_name, cls_label_name in zip(sorted(os.listdir(pcd_prefix)), sorted(os.listdir(cls_label_prefix))):
-            data_list.append(dict(classes=self._metainfo['classes'],
+            data_list.append(dict(classes=self.metainfo['classes'],
                                   pcd_path=os.path.join(pcd_prefix, pcd_name),
                                   cls_label_path=os.path.join(cls_label_prefix, cls_label_name)))
         return data_list

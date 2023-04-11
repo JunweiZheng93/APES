@@ -119,3 +119,25 @@ class LocalDownSample(nn.Module):
         v = torch.gather(v, dim=1, index=repeat(self.idx, 'B M -> B M K C', K=v.shape[-2], C=v.shape[-1]))  # (B, N, K, C) -> (B, M, K, C)
         out = rearrange(scores@v, 'B M 1 C -> B C M').contiguous()  # (B, M, 1, K) @ (B, M, K, C) -> (B, M, 1, C) -> (B, C, M)
         return out
+
+
+class UpSample(nn.Module):
+    def __init__(self):
+        super(UpSample, self).__init__()
+        self.q_conv = nn.Conv1d(128, 128, 1, bias=False)
+        self.k_conv = nn.Conv1d(128, 128, 1, bias=False)
+        self.v_conv = nn.Conv1d(128, 128, 1, bias=False)
+        self.skip_link = nn.Conv1d(128, 128, 1, bias=False)
+        self.softmax = nn.Softmax(dim=-1)
+
+    def forward(self, pcd_up, pcd_down):
+        q = self.q_conv(pcd_up)  # (B, C, N) -> (B, C, N)
+        k = self.k_conv(pcd_down)  # (B, C, M) -> (B, C, M)
+        v = self.v_conv(pcd_down)  # (B, C, M) -> (B, C, M)
+        energy = rearrange(q, 'B C N -> B N C').contiguous() @ k  # (B, N, C) @ (B, C, M) -> (B, N, M)
+        scale_factor = math.sqrt(q.shape[-2])
+        attention = self.softmax(energy / scale_factor)  # (B, N, M) -> (B, N, M)
+        x = attention @ rearrange(v, 'B C M -> B M C').contiguous()  # (B, N, M) @ (B, M, C) -> (B, N, C)
+        x = rearrange(x, 'B N C -> B C N').contiguous()  # (B, N, C) -> (B, C, N)
+        x = self.skip_link(pcd_up) + x  # (B, C, N) + (B, C, N) -> (B, C, N)
+        return x
