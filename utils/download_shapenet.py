@@ -2,7 +2,7 @@ import os, glob, h5py, pkbar
 import numpy as np
 
 
-def download_modelnet(url, data_root):
+def download_shapenet(url, data_root):
     if not os.path.exists(os.path.join(data_root, 'shapenet')):
         # download data
         zipfile = os.path.basename(url)
@@ -55,4 +55,4 @@ def save_data(data_root, pcds, cls_labels, seg_labels, mode):
 
 
 if __name__ == '__main__':
-    download_modelnet('https://shapenet.cs.stanford.edu/media/shapenet_part_seg_hdf5_data.zip', './data')
+    download_shapenet('https://shapenet.cs.stanford.edu/media/shapenet_part_seg_hdf5_data.zip', './data')
