@@ -111,10 +111,12 @@ bash utils/dist_test.sh configs/apes/apes_seg_global-shapenet-200epochs.py ckpt_
 If you are interested in this work, please cite as below:
 
 ```text
-@article{wu2023apes,
-  title={Attention-based Point Cloud Edge Sampling},
-  author={Wu, Chengzhi and Zheng, Junwei and Pfrommer, Julius and Beyerer, Juergen},
-  journal={arXiv preprint arXiv:2302.14673},
-  year={2023}
+@InProceedings{Wu_2023_CVPR,
+    author    = {Wu, Chengzhi and Zheng, Junwei and Pfrommer, Julius and Beyerer, J\"urgen},
+    title     = {Attention-Based Point Cloud Edge Sampling},
+    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+    month     = {June},
+    year      = {2023},
+    pages     = {5333-5343}
 }
 ```
