@@ -115,6 +115,6 @@ If you are interested in this work, please cite as below:
 author={Wu, Chengzhi and Zheng, Junwei and Pfrommer, Julius and Beyerer, J\"urgen},
 title={Attention-Based Point Cloud Edge Sampling},
 booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-year={2023},
+year={2023}
 }
 ```
