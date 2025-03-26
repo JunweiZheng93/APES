@@ -16,7 +16,7 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/attention-based-point-cloud-edge-sampling/3d-point-cloud-classification-on-modelnet40)](https://paperswithcode.com/sota/3d-point-cloud-classification-on-modelnet40?p=attention-based-point-cloud-edge-sampling) <br>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/attention-based-point-cloud-edge-sampling/3d-part-segmentation-on-shapenet-part)](https://paperswithcode.com/sota/3d-part-segmentation-on-shapenet-part?p=attention-based-point-cloud-edge-sampling)
 
-## ❗️ News
+## 🔥 News
 
 **[Feb 2025]** We have a follow-up paper [Samble](https://junweizheng93.github.io/publications/Samble/Samble.html) accepted by CVPR 2025! <br>
 **[Mar 2023]** APES is selected as a Highlight by CVPR 2023! <br>
@@ -127,7 +127,7 @@ year={2023}
 ```
 ```text
 @inproceedings{wu_2025_samble,
-author={Wu, Chengzhi and Wan, Yuxin and Fu, Hao and Pfrommer, Julius and Zhong, Yunze and Zheng, Junwei and Zhang, Jiaming and Beyerer, J\"urgen},
+author={Wu, Chengzhi and Wan, Yuxin and Fu, Hao and Pfrommer, Julius and Zhong, Zeyun and Zheng, Junwei and Zhang, Jiaming and Beyerer, J\"urgen},
 title={SAMBLE: Shape-Specific Point Cloud Sampling for an Optimal Trade-Off Between Local Detail and Global Uniformity},
 booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
 year={2025}
