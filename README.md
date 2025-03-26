@@ -16,12 +16,19 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/attention-based-point-cloud-edge-sampling/3d-point-cloud-classification-on-modelnet40)](https://paperswithcode.com/sota/3d-point-cloud-classification-on-modelnet40?p=attention-based-point-cloud-edge-sampling) <br>
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/attention-based-point-cloud-edge-sampling/3d-part-segmentation-on-shapenet-part)](https://paperswithcode.com/sota/3d-part-segmentation-on-shapenet-part?p=attention-based-point-cloud-edge-sampling)
 
-## Homepage
+## ❗️ News
 
-This project is selected as a Highlight at CVPR 2023! For more information about the project, please refer to our [project homepage](https://junweizheng93.github.io/publications/APES/APES.html).
+**[Feb 2025]** We have a follow-up paper [Samble](https://junweizheng93.github.io/publications/Samble/Samble.html) accepted by CVPR 2025! <br>
+**[Mar 2023]** APES is selected as a Highlight by CVPR 2023! <br>
+**[Feb 2023]** APES is accepted by CVPR 2023!
 
 
-## Prerequisites
+## 🏡 Homepage
+
+This project is selected as a Highlight by CVPR 2023! For more information about the project, please refer to our [project homepage](https://junweizheng93.github.io/publications/APES/APES.html).
+
+
+## 🔧 Prerequisites
 
 Install all necessary packages using:
 
@@ -33,7 +40,7 @@ pip install -r requirements.txt
 ```
 
 
-## Data
+## 📚 Data
 
 Download and preprocess the data using:
 
@@ -43,7 +50,7 @@ python utils/download_shapenet.py  # for segmentation
 ```
 
 
-## Train
+## 📦 Train
 
 Train models from scratch using:
 
@@ -64,7 +71,7 @@ bash utils/dist_train.sh configs/apes/apes_seg_global-shapenet-200epochs.py 2  #
 ```
 
 
-## Test
+## 📦 Test
 
 Test model with checkpoint using:
 
@@ -85,7 +92,7 @@ bash utils/dist_test.sh configs/apes/apes_seg_global-shapenet-200epochs.py ckpt_
 ```
 
 
-## Visualization
+## 📦 Visualization
 
 Visualize results with checkpoint using:
 
@@ -106,7 +113,7 @@ bash utils/dist_test.sh configs/apes/apes_seg_global-shapenet-200epochs.py ckpt_
 ```
 
 
-## Citation
+## 📖 Citation
 
 If you are interested in this work, please cite as below:
 
@@ -116,5 +123,13 @@ author={Wu, Chengzhi and Zheng, Junwei and Pfrommer, Julius and Beyerer, J\"urge
 title={Attention-Based Point Cloud Edge Sampling},
 booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
 year={2023}
+}
+```
+```text
+@inproceedings{wu_2025_samble,
+author={Wu, Chengzhi and Wan, Yuxin and Fu, Hao and Pfrommer, Julius and Zhong, Yunze and Zheng, Junwei and Zhang, Jiaming and Beyerer, J\"urgen},
+title={SAMBLE: Shape-Specific Point Cloud Sampling for an Optimal Trade-Off Between Local Detail and Global Uniformity},
+booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+year={2025}
 }
 ```
